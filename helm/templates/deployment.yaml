@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        env:
+          - name: MYSQL_PORT
+            value: "{{ .Values.mysql.port }}"
+          - name: MYSQL_SERVER
+            value: "{{ .Values.mysql.server }}"
+          - name: MYSQL_DB_NAME
+            value: "{{ .Values.mysql.dbName }}"
+          - name: MYSQL_USER_TEST
+            value: "root"
+          - name: MYSQL_PASSWORD_TEST
+            valueFrom:
+                secretKeyRef:
+                  name: mysql-password-test
+                  key: MYSQL_PASSWORD_TEST
+      imagePullSecrets:
+      - name: regcred-local

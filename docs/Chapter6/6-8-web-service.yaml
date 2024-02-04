@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  ports:
+  - port: 8080
+    name: web
+    nodePort: 31730
+  type: NodePort
+  selector:
+    app: web

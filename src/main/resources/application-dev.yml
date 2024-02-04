@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_SERVER:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DB_NAME:blogDB}?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    #如果运行出错，可以把连接写成下面的路径进行测试
+    #url: jdbc:mysql://127.0.0.1:3306/blogDB?useUnicode=true&characterEncoding=utf-8
+    username: ${MYSQL_USER_TEST:root}
+    password: ${MYSQL_PASSWORD_TEST:password}
+  #    data: classpath:data.sql
+  #    initialization-mode: ALWAYS
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+
+
+logging:
+  level:
+    root: info
+    com.qingfeng.blog: debug
+  file: log/blog.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
