@@ -24,8 +24,8 @@ Password:
 
 Login Succeeded
 
-docker tag kubeblog:1.0 yourname/kubeblog:1.0
-[root@localhost Final]# docker push yourname/kubeblog:1.0
+docker tag kubeblog yourname/kubeblog
+[root@localhost Final]# docker push yourname/kubeblog
 ```
 # 4.2 实践搭建私有镜像中心
 ## 安装 JFrog Container Registry(JCR)
@@ -55,9 +55,9 @@ vi /etc/hosts
 ```
 docker login art.local:8081 admin/passw0rd
 
-docker build -t art.local:8081/docker-local/kubeblog:1.0 .
+docker build -t art.local:8081/docker-local/kubeblog .
 
-docker push art.local:8081/docker-local/kubeblog:1.0
+docker push art.local:8081/docker-local/kubeblog
 
 ```
 - 登录 JCR 查看推送的镜像

@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: kubeblog
-        image: registry.cn-beijing.aliyuncs.com/qingfeng666/kubeblog:1.3
+        image: registry.cn-beijing.aliyuncs.com/qingfeng666/kubeblog
         ports:
         - containerPort: 5000
         env:

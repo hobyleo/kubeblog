@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: kubeblog
-        image: kubeblog:1.14.2
+        image: kubeblog
         ports:
         - containerPort: 5000
 

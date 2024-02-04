@@ -113,7 +113,7 @@ kubeblog            1.0                 f9bb30633155        4 minutes ago       
 # 3-7 Docker run --link运行博客应用
 - docker run --link运行博客应用
 ```
-docker run --name kubeblog -d -p 5000:5000  --link mysql57 kubeblog:1.0
+docker run --name kubeblog -d -p 5000:5000  --link mysql57 kubeblog
 ```
 -进入容器查看环境变量 evn
 ```
