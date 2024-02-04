@@ -55,9 +55,9 @@ vi /etc/hosts
 ```
 docker login art.local:8081 admin/passw0rd
 
-docker build -t art.local:8081/docker-local/kubeblog .
+docker build -t art.local:8081/docker-local/kubeblog:1.0 .
 
-docker push art.local:8081/docker-local/kubeblog
+docker push art.local:8081/docker-local/kubeblog:1.0
 
 ```
 - 登录 JCR 查看推送的镜像
