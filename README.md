@@ -35,7 +35,7 @@ git 地址：https://gitee.com/hobyleo/kubeblog.git
 
 
 
-### yum 安装 maven
+### maven
 
 - 执行
 
@@ -86,7 +86,7 @@ default-character-set=utf8mb4
 
 
 
-## 配置 NFS
+## NFS
 
 - 在 master 和所有 worker node 安装 nfs 服务：
 
@@ -123,7 +123,7 @@ systemctl enable --now nfs
 
 
 
-## 创建私有镜像中心
+## 私有镜像中心
 
 - 在 master 上执行
 
@@ -236,9 +236,15 @@ docker push art.local:8081/docker-local/kubeblog:latest
 kubectl create secret docker-registry regcred-local --docker-server=192.168.10.101:8081 --docker-username=admin --docker-password=password
 ```
 
+- 创建 mysql 密钥
+
+```
+kubectl create secret generic mysql-password-test --from-literal=MYSQL_PASSWORD_TEST=password
+```
 
 
-## 安装 Helm
+
+## Helm
 
 ```
 wget https://get.helm.sh/helm-v3.4.2-linux-amd64.tar.gz -O helm-v3.4.2-linux-amd64.tar.gz

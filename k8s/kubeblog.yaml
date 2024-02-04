@@ -16,6 +16,7 @@ kind: Deployment
 metadata:
   name: kubeblog
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: kubeblog
