@@ -219,16 +219,21 @@ curl -XPOST -vu admin:password http://localhost:8081/artifactory/ui/jcr/eula/acc
 - 推送镜像到仓库
 
 ```
-# 在每个节点都执行一下
 docker login art.local:8081
 ```
 
 ```
-docker tag kubeblog:1.0 art.local:8081/docker-local/kubeblog:1.0
+docker tag kubeblog:latest art.local:8081/docker-local/kubeblog:latest
 ```
 
 ```
-docker push art.local:8081/docker-local/kubeblog:1.0
+docker push art.local:8081/docker-local/kubeblog:latest
+```
+
+- 创建镜像仓库密钥
+
+```
+kubectl create secret docker-registry regcred-local --docker-server=192.168.10.101:8081 --docker-username=admin --docker-password=password
 ```
 
 

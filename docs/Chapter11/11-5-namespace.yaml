@@ -32,7 +32,7 @@ spec:
         - "art.local"
       containers:
       - name: kubeblog
-        image: 192.168.10.101:8081/docker/kubeblog:1.0
+        image: 192.168.10.101:8081/docker/kubeblog
         ports:
         - containerPort: 5000
         env:
