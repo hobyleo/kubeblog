@@ -1,11 +1,8 @@
+server:
+  port: 5000
 spring:
   thymeleaf:
     mode: HTML
   profiles:
     active: dev
-
-
-
 comment.avatar: /images/avatar.png
-server:
-  port: 5000

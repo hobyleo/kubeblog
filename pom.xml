@@ -25,7 +25,7 @@
     </properties>
 
     <dependencies>
-<!--配置Prometheus的监控-->
+        <!-- 配置Prometheus的监控 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -84,10 +84,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-<!--            <scope>provided</scope>-->
+            <!-- <scope>provided</scope> -->
         </dependency>
 
-        <!--swagger begin-->
+        <!-- swagger begin -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -103,8 +103,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.8</version>
         </dependency>
-
-        <!--swagger end-->
+        <!-- swagger end -->
 
     </dependencies>
 
