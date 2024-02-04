@@ -20,15 +20,15 @@ spec:
     spec:
       containers:
 #     - image: grafana/grafana:4.2.0
-      - image: grafana/grafana:4.2.0
+      - image: grafana/grafana:6.7.6
         name: grafana-core
         imagePullPolicy: IfNotPresent
         # env:
         resources:
           # keep request = limit to keep this container in guaranteed class
           limits:
-            cpu: 100m
-            memory: 100Mi
+            cpu: 500m
+            memory: 500Mi
           requests:
             cpu: 100m
             memory: 100Mi

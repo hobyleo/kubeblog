@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeblog
+spec:
+  selector:
+    app: kubeblog
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30002
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeblog
+spec:
+  selector:
+    matchLabels:
+      app: kubeblog
+  template:
+    metadata:
+      labels:
+        app: kubeblog
+    spec:
+      hostAliases:
+      - ip: "192.168.10.101"
+        hostnames:
+        - "art.local"
+      containers:
+      - name: kubeblog
+        image: 192.168.10.101:8081/docker/kubeblog:1.0
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env:
+          - name: MYSQL_SERVER
+            value: "192.168.10.102"
+          - name: MYSQL_PORT
+            value: "30306"
+          - name: MYSQL_DB_NAME
+            value: "blogDB"
+          - name: MYSQL_USER_TEST
+            value: "root"
+          - name: MYSQL_PASSWORD_TEST
+            valueFrom:
+              secretKeyRef:
+                name: mysql-password-test
+                key: MYSQL_PASSWORD_TEST
+      imagePullSecrets:
+        - name: regcred-local

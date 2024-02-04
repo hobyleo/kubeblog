@@ -1,0 +1,42 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-sc
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-sc-pod
+  labels:
+    name: pvc-sc-pod
+spec:
+  containers:
+  - name: pvc-sc-pod
+    image: nginx
+    command: 
+      - "/bin/sh"
+    args: 
+      - "-c"
+      - "touch /mnt/SUCCESS && exit 0 || exit 1"  #创建一个SUCCESS文件后退出
+    volumeMounts:
+      - name: nfs-pvc
+        mountPath: /mnt
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+  volumes:
+    - name: nfs-pvc
+      persistentVolumeClaim:
+        claimName: pvc-sc
+  restartPolicy: Never

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-limit
+  labels:
+    name: cpu-limit
+spec:
+  containers:
+  - name: cpu-limit
+    image: registry.cn-beijing.aliyuncs.com/qingfeng666/stress
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "1"
+    args:
+      - -cpus
+      - "2"
