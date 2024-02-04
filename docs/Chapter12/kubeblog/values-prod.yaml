@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  rigistry: 192.168.99.101:8081
-  repository: 192.168.99.101:8081/docker/kubeblog
+  rigistry: 192.168.10.101:8081
+  repository: 192.168.10.101:8081/docker/kubeblog
   tag: 1.1
   pullPolicy: IfNotPresent
 

@@ -105,9 +105,9 @@ Dashboard 是K ubernetes 集群的通用的、基于 Web 的用户界面。 它�
 ## 部署架构
 |   ip  |  域名  | 备注| 安装软件|
 |  ----  | ----  |----  |----  |
-|  192.168.99.101 | master | 主节点 |Docker Kubeadm kubelet kubectl flannel |
-|  192.168.99.102 | node1 |从节点 1 |Docker Kubeadm kubelet kubectl |
-|  192.168.99.103 | node2 |从节点 2 |Docker Kubeadm kubelet kubectl|
+|  192.168.10.101 | master | 主节点 |Docker Kubeadm kubelet kubectl flannel |
+|  192.168.10.102 | node1 |从节点 1 |Docker Kubeadm kubelet kubectl |
+|  192.168.10.103 | node2 |从节点 2 |Docker Kubeadm kubelet kubectl|
 ## 环境准备
 - 3台虚拟机CentOS7.x-86_x64
 - 硬件配置：2GB或更多RAM，2个CPU或更多CPU，硬盘30GB或更多
@@ -120,7 +120,7 @@ Dashboard 是K ubernetes 集群的通用的、基于 Web 的用户界面。 它�
 - 配置虚机双网卡,实现固定 IP，且能访问外网
 网卡 1： 仅主机host-only
 网卡 2： 网络转换地址NAT
-查看虚拟机网络，点击管理—>主机网络管理器，记住ip地址（192.168.99.1），并选择“手动配置网卡”。
+查看虚拟机网络，点击管理—>主机网络管理器，记住ip地址（192.168.10.1），并选择“手动配置网卡”。
 - 重启虚拟机，此时在虚拟机 ping www.baidu.com 是返回成功的。
 - 设置外部网络访问虚拟机
 设置静态ip地址，编辑网络配置文件，编辑网络设置文件
@@ -142,7 +142,7 @@ UUID=08012b4a-d6b1-41d9-a34d-e0f52a123e7a
 DEVICE=enp0s3
 ONBOOT=yes
 BOOTPROTO=static
-IPADDR=192.168.99.101
+IPADDR=192.168.10.101
 ```
 - 重启网络
 ```
@@ -152,7 +152,7 @@ systemctl restart network
 - 查看 enp0s3 网卡的 ip
 ```
 [root@localhost Final]#ip addr |grep 192
-inet 192.168.99.101/24 brd 192.168.99.255 scope global noprefixroute enp0s3
+inet 192.168.10.101/24 brd 192.168.10.255 scope global noprefixroute enp0s3
 ```
 - 此时虚拟机既可以访问外网，也能够和宿主机( 192.168.31.178)进行通信
 ```
@@ -200,9 +200,9 @@ yum clean all
 - 配置 Master 和 work 节点的域名
 ```
 vim /etc/hosts
- 192.168.99.101 master
- 192.168.99.102 node1
- 192.168.99.103 node2
+ 192.168.10.101 master
+ 192.168.10.102 node1
+ 192.168.10.103 node2
 ```
 - 关闭 防火墙
 ```
@@ -317,14 +317,14 @@ kubeadm reset
 ![图片描述](//img.mukewang.com/wiki/5f81ada70971ea2315140770.jpg)
 注意 clone snapshot 虚拟机时，选择'Generate new MAC address'。
 - ssh 免密登录
-- 设置 ip 地址为 192.168.99.102
+- 设置 ip 地址为 192.168.10.102
 - 配置域名
 ```
 hostnamectl set-hostname node1
 vi /etc/hosts
-192.168.99.101 master
-192.168.99.102 node1
-192.168.99.103 node2
+192.168.10.101 master
+192.168.10.102 node1
+192.168.10.103 node2
 ```
 - 配置阿里云 yum 源
 ```
@@ -355,7 +355,7 @@ systemctl enable kubelet
 ```
 - kubadm join 加入集群
 ```
-kubeadm join 192.168.99.101:6443 --token vrqf1w.dyg1wru7nz0ut9jz    --discovery-token-ca-cert-hash sha256:1832d6d6c8386de5ecb1a7f512cfdef27a6d14ef901ffbe7d3c01d999d794f90
+kubeadm join 192.168.10.101:6443 --token vrqf1w.dyg1wru7nz0ut9jz    --discovery-token-ca-cert-hash sha256:1832d6d6c8386de5ecb1a7f512cfdef27a6d14ef901ffbe7d3c01d999d794f90
 ```
 默认token的有效期为24小时，当过期之后，该token就不可用了。解决方法如下：
 

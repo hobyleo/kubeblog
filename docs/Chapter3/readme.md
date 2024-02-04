@@ -148,6 +148,6 @@ ff02::2	ip6-allrouters
 - 在宿主机访问 centos 虚拟机上的 kubeblog 应用，需要关闭虚拟机防火墙
 ```
 systemctl stop firewalld
-192.168.99.101:5000
+192.168.10.101:5000
 ```
 

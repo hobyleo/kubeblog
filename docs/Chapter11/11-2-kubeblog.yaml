@@ -33,4 +33,4 @@ spec:
           - name: MYSQL_PORT
             value: "30306"
           - name: MYSQL_SERVER
-            value: "192.168.99.102"
+            value: "192.168.10.102"

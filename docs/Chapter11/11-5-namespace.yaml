@@ -27,19 +27,19 @@ spec:
         app: kubeblog
     spec:
       hostAliases:
-      - ip: "192.168.99.101"
+      - ip: "192.168.10.101"
         hostnames:
         - "art.local"
       containers:
       - name: kubeblog
-        image: 192.168.99.101:8081/docker/kubeblog:1.1
+        image: 192.168.10.101:8081/docker/kubeblog:1.1
         ports:
         - containerPort: 5000
         env:
           - name: MYSQL_PORT
             value: "30306"
           - name: MYSQL_SERVER
-            value: "192.168.99.102"
+            value: "192.168.10.102"
           - name: MYSQL_DB_NAME
             value: "blogDBTest"
           - name: MYSQL_USER_TEST

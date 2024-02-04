@@ -19,7 +19,7 @@ spec:
       - printf UNCHANGED_REFERENCE=$UNCHANGED_REFERENCE'\n'; printf SERVICE=$SERVICE'\n'; printf ESCAPED_SERVICE=$ESCAPED_SERVICE; sleep 120
     env:
       - name: SERVICE_IP
-        value: "192.168.99.102"
+        value: "192.168.10.102"
       - name: SERVICE_PORT
         value: "31111"
       - name: UNCHANGED_REFERENCE
