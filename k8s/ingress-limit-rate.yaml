@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-limit-rate
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "1"
+spec:
+  ingressClassName: my-nginx
+  rules:
+    - host: nginx.ingress.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: my-nginx
+                port:
+                  number: 80

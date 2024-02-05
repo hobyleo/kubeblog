@@ -3,10 +3,10 @@ kind: Ingress
 metadata:
   name: ingress-example
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-    - host: hello-world.info
+    - host: nginx.ingress.example.com
       http:
         paths:
           - path: /
@@ -16,3 +16,13 @@ spec:
                 name: my-nginx
                 port:
                   number: 80
+    - host: tomcat.ingress.example.com
+      http:
+        paths:
+          - path: "/test(/|$)(.*)"
+            pathType: Prefix
+            backend:
+              service:
+                name: my-tomcat
+                port:
+                  number: 8080

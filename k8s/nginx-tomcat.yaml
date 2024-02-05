@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx
+spec:
+  selector:
+    app: my-nginx
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-tomcat
+spec:
+  selector:
+    app: my-tomcat
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+spec:
+  selector:
+    matchLabels:
+      app: my-nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+        - name: my-nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-tomcat
+spec:
+  selector:
+    matchLabels:
+      app: my-tomcat
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: my-tomcat
+    spec:
+      containers:
+        - name: my-tomcat
+          image: tomcat:8.5.68
+          ports:
+            - containerPort: 8080
