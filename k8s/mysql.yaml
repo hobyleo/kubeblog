@@ -22,19 +22,6 @@ data:
     default-character-set=utf8mb4
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pvc-1
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
----
-apiVersion: v1
 kind: Service
 metadata:
   name: mysql57
@@ -74,6 +61,7 @@ spec:
         volumeMounts:
         - name: data-volume
           mountPath: /var/lib/mysql
+          subPath: mysql-pv
         - name: config-volume
           mountPath: /etc/mysql/mysql.conf.d
         env:
@@ -81,8 +69,9 @@ spec:
             value: "password"
       volumes:
       - name: data-volume
-        persistentVolumeClaim:
-          claimName: mysql-pvc-1
+        nfs:
+          path: /nfsdata
+          server: master
       - name: config-volume
         configMap:
           name: mysql-config
