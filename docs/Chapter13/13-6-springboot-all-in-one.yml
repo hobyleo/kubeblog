@@ -91,7 +91,7 @@ data:
         # metrics_path defaults to '/metrics'
         # scheme defaults to 'http'.
         static_configs:
-        - targets: ['192.168.10.103:30091']
+        - targets: ['192.168.10.102:30091']
       - job_name: 'spring-actuator'
         metrics_path: '/actuator/prometheus'
         scrape_interval: 5s
@@ -130,7 +130,7 @@ spec:
         component: core
     spec:
       serviceAccountName: prometheus-k8s
-      nodeName: node2
+      nodeName: node1
       containers:
       - name: prometheus
 #       image: prom/prometheus:v1.7.0
@@ -159,5 +159,3 @@ spec:
       - name: config-volume
         configMap:
           name: kubeblog-config
-
-      
