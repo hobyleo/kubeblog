@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mysql
 data:
-  mysqld.conf: |-
+  my.cnf: |-
     [mysqld]
     default-time-zone='+08:00'
     bind-address=0.0.0.0
