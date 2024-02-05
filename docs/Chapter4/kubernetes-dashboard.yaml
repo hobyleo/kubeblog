@@ -195,6 +195,7 @@ spec:
             - containerPort: 8443
               protocol: TCP
           args:
+            - --token-ttl=86400
             - --auto-generate-certificates
             - --namespace=kubernetes-dashboard
             # Uncomment the following line to manually specify Kubernetes API server Host
