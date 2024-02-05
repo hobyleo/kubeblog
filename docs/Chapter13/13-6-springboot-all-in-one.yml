@@ -58,7 +58,7 @@ spec:
     - port: 9090
       protocol: TCP
       name: webui
-      nodePort: 30091
+      nodePort: 30090
   selector:
     app: prometheus
     component: core
@@ -91,7 +91,7 @@ data:
         # metrics_path defaults to '/metrics'
         # scheme defaults to 'http'.
         static_configs:
-        - targets: ['192.168.10.102:30091']
+        - targets: ['192.168.10.102:30090']
       - job_name: 'spring-actuator'
         metrics_path: '/actuator/prometheus'
         scrape_interval: 5s
