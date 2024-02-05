@@ -67,8 +67,10 @@ kind: StorageClass
 metadata:
   name: managed-nfs-storage
 provisioner: qgg-nfs-storage
+allowVolumeExpansion: true
 parameters:
-  archiveOnDelete: "false"
+  pathPattern: "${.PVC.namespace}-${.PVC.name}"
+  onDelete: delete
 ---
 apiVersion: apps/v1
 kind: Deployment

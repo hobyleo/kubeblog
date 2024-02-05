@@ -1,4 +1,40 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  labels:
+    app: mysql
+data:
+  mysqld.conf: |-
+    [mysqld]
+    default-time-zone='+08:00'
+    bind-address=0.0.0.0
+    port=3306
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_general_ci
+    max_connections=500
+    max_allowed_packet=512M
+
+    [mysql]
+    default-character-set=utf8mb4
+
+    [client]
+    default-character-set=utf8mb4
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc-1
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: mysql57
@@ -29,7 +65,6 @@ spec:
         app: mysql # has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
-      nodeName: node1
       containers:
       - name: mysql
         image: mysql:5.7
@@ -37,25 +72,17 @@ spec:
         - containerPort: 3306
           name: mysql
         volumeMounts:
-        - name: mysql-data
+        - name: data-volume
           mountPath: /var/lib/mysql
-        - name: mysql-log
-          mountPath: /var/log/mysql
-        - name: mysql-conf
-          mountPath: /etc/my.cnf
+        - name: config-volume
+          mountPath: /etc/mysql/mysql.conf.d
         env:
           - name: MYSQL_ROOT_PASSWORD
             value: "password"
       volumes:
-      - name: mysql-data
-        hostPath:
-            path: /opt/mysql/data
-            type: DirectoryOrCreate
-      - name: mysql-log
-        hostPath:
-            path: /opt/mysql/log
-            type: DirectoryOrCreate
-      - name: mysql-conf
-        hostPath:
-            path: /opt/mysql/my.cnf
-            type: File
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: mysql-pvc-1
+      - name: config-volume
+        configMap:
+          name: mysql-config
