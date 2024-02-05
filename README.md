@@ -114,10 +114,16 @@ mkdir /nfsdata
 exportfs -r
 ```
 
-- 在 master 自启动 nfs
+- 在 master 自启动 nfs 和 rpcbind
 
 ```
 systemctl enable --now rpcbind
+systemctl enable --now nfs
+```
+
+- 在 worker node 自启动 nfs
+
+```
 systemctl enable --now nfs
 ```
 
@@ -246,9 +252,114 @@ kubectl create secret generic mysql-password-test --from-literal=MYSQL_PASSWORD_
 
 ## Helm
 
+- 安装
+
 ```
 wget https://get.helm.sh/helm-v3.4.2-linux-amd64.tar.gz -O helm-v3.4.2-linux-amd64.tar.gz
 tar -zxvf  helm-v3.4.2-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/local/bin/helm
+```
+
+- [官方文档](https://helm.sh/zh/docs/intro/quickstart/)
+
+
+
+## K8s 升级
+
+### 升级原则
+
+- 不能跨次版本升级，比如 1.19 不能跨过 1.20 升级到 1.21，必须先升级到 1.20.X 版本
+- 升级时不要进行应用的操作
+- 确保 swap 的关闭
+- 为虚拟机镜像创建 snapshot，以便出错后可以回滚
+
+### 升级 master
+
+1. 查看新版本
+
+```
+yum list --showduplicates kubeadm --disableexcludes=kubernetes
+```
+
+2. 升级 kubeadm
+
+```
+yum install -y kubeadm-1.20.15-0 --disableexcludes=kubernetes
+```
+
+3. 查看 kubeadm 版本
+
+```
+[root@master ~]# kubeadm version
+kubeadm version: &version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.15", GitCommit:"8f1e5bf0b9729a899b8df86249b56e2c74aebc55", GitTreeState:"clean", BuildDate:"2022-01-19T17:26:37Z", GoVersion:"go1.15.15", Compiler:"gc", Platform:"linux/amd64"}
+```
+
+4. 执行升级检测
+
+```
+kubeadm upgrade plan
+```
+
+5. 执行升级
+
+```
+kubeadm upgrade apply v1.20.15
+```
+
+6. 升级 kubectl 和 kubelet
+
+```
+yum install -y kubectl-1.20.15-0 kubelet-1.20.15-0 --disableexcludes=kubernetes
+```
+
+7. 重启 kubelet
+
+```
+systemctl daemon-reload && systemctl restart kubelet
+```
+
+8. 查看 kubectl 版本已经更新
+
+```
+[root@master ~]# kubectl version
+Client Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.15", GitCommit:"8f1e5bf0b9729a899b8df86249b56e2c74aebc55", GitTreeState:"clean", BuildDate:"2022-01-19T17:27:39Z", GoVersion:"go1.15.15", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.3", GitCommit:"1e11e4a2108024935ecfcb2912226cedeafd99df", GitTreeState:"clean", BuildDate:"2020-10-14T12:41:49Z", GoVersion:"go1.15.2", Compiler:"gc", Platform:"linux/amd64"}
+```
+
+### 升级 worker
+
+1. 升级 kubeadm
+
+```
+yum install -y kubeadm-1.20.15-0 --disableexcludes=kubernetes
+```
+
+2. 升级 node
+
+```
+kubeadm upgrade node
+```
+
+3. 升级 kubectl 和 kubelet
+
+```
+yum install -y kubectl-1.20.15-0 kubelet-1.20.15-0 --disableexcludes=kubernetes
+```
+
+4. 重启
+
+```
+systemctl daemon-reload && systemctl restart kubelet
+```
+
+5. 验证
+
+> 等待 5 秒执行
+
+```
+[root@node1 ~]# kubectl get node
+NAME     STATUS   ROLES    AGE   VERSION
+master   Ready    master   13h   v1.20.15
+node1    Ready    <none>   13h   v1.20.15
 ```
 
