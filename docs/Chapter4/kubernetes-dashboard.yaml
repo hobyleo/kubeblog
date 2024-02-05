@@ -189,7 +189,7 @@ spec:
     spec:
       containers:
         - name: kubernetes-dashboard
-          image: registry.cn-beijing.aliyuncs.com/qingfeng666/dashboard:v2.0.4
+          image: kubernetesui/dashboard:v2.3.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8443
@@ -273,7 +273,7 @@ spec:
     spec:
       containers:
         - name: dashboard-metrics-scraper
-          image: registry.cn-beijing.aliyuncs.com/qingfeng666/metrics-scraper:v1.0.4
+          image: kubernetesui/metrics-scraper:v1.0.6
           ports:
             - containerPort: 8000
               protocol: TCP
@@ -285,8 +285,8 @@ spec:
             initialDelaySeconds: 30
             timeoutSeconds: 30
           volumeMounts:
-          - mountPath: /tmp
-            name: tmp-volume
+            - mountPath: /tmp
+              name: tmp-volume
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
