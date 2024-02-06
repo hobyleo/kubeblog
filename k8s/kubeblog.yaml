@@ -1,3 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubeblog
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: kubeblog.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kubeblog
+                port:
+                  number: 5000
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -25,10 +44,8 @@ spec:
       labels:
         app: kubeblog
     spec:
-      hostAliases:
-      - ip: "192.168.10.101"
-        hostnames:
-        - "art.local"
+      imagePullSecrets:
+        - name: regcred-local
       containers:
       - name: kubeblog
         image: 192.168.10.101:8081/docker/kubeblog
@@ -52,5 +69,3 @@ spec:
               secretKeyRef:
                 name: mysql-password-test
                 key: MYSQL_PASSWORD_TEST
-      imagePullSecrets:
-        - name: regcred-local
