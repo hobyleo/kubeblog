@@ -100,12 +100,11 @@ yum install -y nfs-utils rpcbind
 mkdir /nfsdata
 ```
 
-- 修改 master 配置
+- 配置 nfs 目录
 
-  vi /etc/exports
 
 ```
-/nfsdata   *(rw,sync,no_root_squash)
+echo /nfsdata   *(rw,sync,no_root_squash) >> /etc/exports
 ```
 
 - 激活配置
@@ -118,12 +117,6 @@ exportfs -r
 
 ```
 systemctl enable --now rpcbind
-systemctl enable --now nfs
-```
-
-- 在 worker node 自启动 nfs
-
-```
 systemctl enable --now nfs
 ```
 

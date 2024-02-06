@@ -21,6 +21,7 @@ spec:
       serviceAccountName: nfs-client-provisioner
       containers:
         - name: nfs-client-provisioner
+          #image: registry.cn-shenzhen.aliyuncs.com/hoby/nfs-subdir-external-provisioner:v4.0.0
           image: registry.cn-shenzhen.aliyuncs.com/hoby/nfs-client-provisioner:v3.1.0
           volumeMounts:
             - name: nfs-client-root
