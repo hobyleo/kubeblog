@@ -70,7 +70,7 @@ provisioner: qgg-nfs-storage
 allowVolumeExpansion: true
 parameters:
   pathPattern: "${.PVC.namespace}-${.PVC.name}"
-  onDelete: delete
+  onDelete: retain
 ---
 apiVersion: apps/v1
 kind: Deployment
